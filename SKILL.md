@@ -17,11 +17,47 @@ You are the ingestion engine. The user gives you raw course material (a lecture 
 
 ## STEP 1 — Determine the course context
 
-Check the user's working directory for a `courses/{course-name}/` folder:
-- If exists → ingesting NEW content into existing course
-- If not exists → ask user for course name (kebab-case), then create scaffold from `courses/_template/`
+**Course name is the FIRST argument after the subcommand.** Always explicit. Zero guessing.
+
+```
+/courserafied ingest ibm-data-analysis [transcript]
+                     ^^^^^^^^^^^^^^^^^
+                     course name (first arg)
+```
+
+### Routing logic (in order):
+
+1. **First arg is a course name?** → normalize to kebab-case → use `courses/{name}/`
+   - If folder exists → ingest into it
+   - If folder doesn't exist → auto-init from `courses/_template/`, then ingest
+
+2. **First arg missing, only ONE course folder exists in CWD** → use that one (legacy fallback, no prompt)
+
+3. **First arg missing, MULTIPLE course folders exist** → halt, list them, ask user to specify
+
+4. **First arg missing, no course folders exist** → halt, tell user:
+   ```
+   📚 No course specified.
+   Use: /courserafied ingest {course-name} [transcript]
+   Example: /courserafied ingest vanderbilt [transcript]
+   ```
 
 Set `COURSE_DIR = courses/{course-name}/`.
+
+### Accepted course-name formats (all normalized to kebab-case)
+- `ibm-data-analysis`  ← ideal
+- `IBM Data Analysis`  ← normalized → `ibm-data-analysis`
+- `vanderbilt`          ← short alias fine
+- `mit-linear-algebra`  ← kebab-case preferred
+
+**Normalization rules:**
+- lowercase
+- spaces → hyphens
+- strip special chars except hyphens
+- trim leading/trailing hyphens
+
+### Ambiguity check (before writing)
+If the normalized course-name is within 2 characters of an existing folder (Levenshtein distance), confirm with user: "Did you mean `existing-name`?" Prevents accidental typo-new-folder creation.
 
 ---
 
@@ -152,13 +188,26 @@ Run /exam to generate practice questions from this content.
 
 ## SUBCOMMANDS
 
+**Course name is the first argument after the subcommand** (except for `init` where it's the ONLY arg).
+
 | Command | What it does |
 |---|---|
-| `/courserafied init [course-name]` | Create scaffold from `courses/_template/` |
-| `/courserafied ingest [transcript]` | Parse + write to all 6 files (default action) |
-| `/courserafied query [term]` | Search INDEX.md, return file + section |
-| `/courserafied validate` | Run all integrity checks, report broken links / missing fields |
-| `/courserafied stats` | Entry counts, last updated, weak categories |
+| `/courserafied init {course-name}` | Create scaffold from `courses/_template/` (auto-inits on first ingest too) |
+| `/courserafied ingest {course-name} [transcript]` | Parse + write to all 6 files |
+| `/courserafied query {course-name} [term]` | Search INDEX.md for that course, return file + section |
+| `/courserafied validate {course-name}` | Run all integrity checks on that course |
+| `/courserafied stats {course-name}` | Entry counts, last updated, weak categories |
+| `/courserafied list` | List all course folders present in CWD |
+
+### Examples
+
+```
+/courserafied ingest ibm-data-analysis [transcript]
+/courserafied ingest vanderbilt [next lecture transcript]
+/courserafied stats vanderbilt
+/courserafied query vanderbilt "persona pattern"
+/courserafied list
+```
 
 ---
 
