@@ -50,7 +50,7 @@ cd .. && zip -r ~/.claude/skills/courserafied.skill courserafied/
 ```bash
 # 2. In any Claude Code session:
 /courserafied init vanderbilt-prompt-engineering
-/courserafied ingest [paste your transcript]
+/courserafied ingest vanderbilt-prompt-engineering [paste your transcript]
 ```
 
 That's it. Six categorized markdown files now exist with everything from that lecture, properly structured.
@@ -91,12 +91,21 @@ Plus:
 ## 🤖 Subcommands
 
 ```bash
-/courserafied init [course-name]       # create scaffold from template
-/courserafied ingest [transcript]      # parse + write to all 6 files (default)
-/courserafied query [term]             # find where a term lives
-/courserafied validate                 # run integrity checks
-/courserafied stats                    # entry counts, weak categories
+# Course name is the FIRST argument after the subcommand.
+/courserafied init {course-name}                          # create scaffold
+/courserafied ingest {course-name} [transcript]           # parse + write to all 6 files
+/courserafied query {course-name} [term]                  # find where a term lives
+/courserafied validate {course-name}                      # run integrity checks
+/courserafied stats {course-name}                         # entry counts, weak categories
+/courserafied list                                         # show all courses in CWD
+
+# Examples:
+/courserafied ingest ibm-data-analysis [transcript]
+/courserafied ingest vanderbilt [next lecture]
+/courserafied stats vanderbilt
 ```
+
+Course names normalize to kebab-case ("IBM Data Analysis" → `ibm-data-analysis`). Unknown course names auto-init from the template.
 
 ---
 

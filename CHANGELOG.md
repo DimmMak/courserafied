@@ -1,5 +1,30 @@
 # 📜 courserafied Changelog
 
+## v2.0.0 — 2026-04-17 — Multi-course via course-name-first invocation
+
+### 🔧 Breaking change
+- Course name is now the FIRST argument after every subcommand (except `list`).
+  ```
+  OLD: /courserafied ingest [transcript]
+  NEW: /courserafied ingest {course-name} [transcript]
+  ```
+- Old single-folder auto-detection still works as fallback when only ONE course folder exists in CWD. Multi-course workflows now unambiguous.
+
+### 🚀 Added
+- 4-case routing logic (explicit arg / single folder / multiple folders / none)
+- Course-name normalization to kebab-case (accepts "IBM Data Analysis" → `ibm-data-analysis`)
+- Levenshtein ambiguity check — warns on typos that would create near-duplicate folders
+- New `/courserafied list` subcommand — shows all course folders in CWD
+- Auto-init from `courses/_template/` on first ingest to an unknown course
+
+### 💡 Why
+Allows concurrent courses (Vanderbilt + IBM + MIT) with zero routing confusion. Eliminates the ambiguity when multiple course folders coexist.
+
+### 🔗 Migration
+Existing single-course workflows still work. Multi-course workflows gain explicit routing with no new state to manage.
+
+---
+
 ## v1.0.0 — 2026-04-16 — Initial Release
 
 ### 🚀 Shipped
