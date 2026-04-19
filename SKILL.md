@@ -19,6 +19,13 @@ capabilities:
   cannot:
     - "modify other skills' data"
     - "delete existing course entries"
+unix_contract:
+  data_format: "markdown"
+  schema_version: "0.1.0"
+  stdin_support: true
+  stdout_format: "markdown"
+  composable_with:
+    - "study-buddy"
 ---
 
 # 📚 /courserafied — Courses → Queryable Knowledge Bases
