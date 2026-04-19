@@ -6,6 +6,19 @@ description: >
   into a structured, agent-readable knowledge base. Auto-splits content into 6
   categorized .md files with consistent schemas. Powers downstream agents:
   exam generators, flashcard makers, lookup, cross-course comparison.
+  NOT for: live lecture companionship (use study-buddy).
+  NOT for: stock analysis (use .rumble).
+  NOT for: skill creation (use skill-builder).
+capabilities:
+  reads:
+    - "user-provided course transcripts"
+    - "courses/*/INDEX.md"
+  writes:
+    - "courses/{name}/*.md"
+  calls: []
+  cannot:
+    - "modify other skills' data"
+    - "delete existing course entries"
 ---
 
 # 📚 /courserafied — Courses → Queryable Knowledge Bases
