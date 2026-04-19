@@ -1,5 +1,6 @@
 ---
 name: courserafied
+domain: learning
 description: >
   Turn any course material (lecture transcripts, video notes, textbook chapters)
   into a structured, agent-readable knowledge base. Auto-splits content into 6
