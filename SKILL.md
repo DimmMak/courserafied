@@ -1,5 +1,6 @@
 ---
 name: courserafied
+version: 0.2.0
 domain: learning
 description: >
   Turn any course material (lecture transcripts, video notes, textbook chapters)
