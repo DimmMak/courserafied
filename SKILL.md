@@ -9,7 +9,7 @@ description: >
   exam generators, flashcard makers, lookup, cross-course comparison.
   NOT for: live lecture companionship (use study-buddy).
   NOT for: stock analysis (use .rumble).
-  NOT for: skill creation (use skill-builder).
+  NOT for: skill creation (use snes-builder).
 capabilities:
   reads:
     - "user-provided course transcripts"
